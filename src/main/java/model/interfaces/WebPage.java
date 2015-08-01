@@ -2,11 +2,11 @@ package main.java.model.interfaces;
 
 import java.net.URL;
 
-public abstract class WebPage {
+public abstract class WebPage implements Serializer {
 	
-	private URL url;
-	private Integer id;
-	private String name;
+	protected URL url;
+	protected Integer id;
+	protected String name;
 	
-	abstract public void extractInformation();
+	abstract public String extractInformation();
 }

@@ -7,4 +7,6 @@ public interface Serializer {
 	public JsonElement serialize();
 	
 	public Object deserialize();
+	
+	public String getFileName();
 }

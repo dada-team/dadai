@@ -30,6 +30,7 @@ public class TurfoWpHorseParser implements WpParser {
 		
 		logger.debug("sex " + sex);
 		logger.debug("age " + age);
+		logger.debug("name" + horseName);
 		
 		Elements horsesRanks = doc.select("div.ficheStatsMusiqueNew a");
 		

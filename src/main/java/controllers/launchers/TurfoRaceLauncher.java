@@ -22,10 +22,11 @@ public class TurfoRaceLauncher implements Callable<List<WebPage>> {
 
 	private DateTime dtStart;
 	private DateTime dtEnd;
-	private WpManager webCol = new WpRaceManager();
+	private WpManager webCol;
 	private Sniffer<URL> sniffer = new TurfoRaceSniffer();
 	
-	public TurfoRaceLauncher(DateTime dtStart, DateTime dtEnd) {
+	public TurfoRaceLauncher(File outputDirectory, DateTime dtStart, DateTime dtEnd) {
+		this.webCol = new WpRaceManager(outputDirectory);
 		this.dtStart = dtStart;
 		this.dtEnd = dtEnd;
 	}
@@ -41,8 +42,8 @@ public class TurfoRaceLauncher implements Callable<List<WebPage>> {
 		}
 	}
 	
-	public void writeAllData(File o) throws IOException{
-		this.webCol.writeToJSON(o);
+	public void writeAllData() throws IOException{
+		this.webCol.writeToJSON();
 	}
 
 	@Override
