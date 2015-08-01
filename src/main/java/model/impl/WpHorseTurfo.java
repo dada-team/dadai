@@ -1,5 +1,6 @@
 package main.java.model.impl;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +15,23 @@ import main.java.model.interfaces.WebPage;
 
 public class WpHorseTurfo extends WebPage {
 
-	private String name;
-	private DateTime age;
+	private String age;
 	private String sex;
 	private List<String> lastPerformances = new ArrayList<String>();
 
-	public DateTime getAge() {
+	public WpHorseTurfo(URL url, Integer id, String name, String age, String sex, List<String> lastPerformances) {
+		super(url, id, name);
+		this.age = age;
+		this.sex = sex;
+		this.lastPerformances = lastPerformances;
+		// TODO Auto-generated constructor stub
+	}
+	
+	public String getAge() {
 		return age;
 	}
 
-	public void setAge(DateTime age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 
@@ -59,12 +67,6 @@ public class WpHorseTurfo extends WebPage {
 	public Object deserialize() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String extractInformation() {
-		// TODO Auto-generated method stub
-		return this.serialize().toString();
 	}
 
 	@Override

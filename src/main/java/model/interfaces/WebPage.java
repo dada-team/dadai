@@ -8,5 +8,14 @@ public abstract class WebPage implements Serializer {
 	protected Integer id;
 	protected String name;
 	
-	abstract public String extractInformation();
+	public WebPage(URL url, Integer id, String name){
+		this.url = url;
+		this.id = id;
+		this.name = name;
+	}
+	
+	public String extractInformation() {
+		// TODO Auto-generated method stub
+		return this.serialize().toString();
+	}
 }

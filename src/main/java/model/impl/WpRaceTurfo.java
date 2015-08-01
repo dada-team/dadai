@@ -1,24 +1,26 @@
 package main.java.model.impl;
 
+import java.net.URL;
+
 import org.joda.time.DateTime;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import main.java.model.interfaces.Serializer;
 import main.java.model.interfaces.WebPage;
 
 public class WpRaceTurfo extends WebPage {
 
+	public WpRaceTurfo(URL url, Integer id, String name, DateTime dtEvent, FinishList finishList) {
+		super(url, id, name);
+		this.dtEvent = dtEvent;
+		this.finishList = finishList;
+		// TODO Auto-generated constructor stub
+	}
+
 	private DateTime dtEvent;
 	private FinishList finishList;
-
-	@Override
-	public String extractInformation() {
-		// TODO Auto-generated method stub
-		return serialize().toString();
-	}
 
 	@Override
 	public JsonElement serialize() {

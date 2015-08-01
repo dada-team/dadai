@@ -2,13 +2,19 @@ package main.java.controllers.data;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import main.java.controllers.interfaces.WpParser;
+import main.java.model.impl.WpHorseTurfo;
 import main.java.model.interfaces.WebPage;
 
 
@@ -34,13 +40,19 @@ public class TurfoWpHorseParser implements WpParser {
 		
 		Elements horsesRanks = doc.select("div.ficheStatsMusiqueNew a");
 		
-
+		List<String> rs = new ArrayList<String> ();
+		
 		for (int i = 0; i < horsesRanks.size() ; i++ ) {
 			logger.debug("URL races found : " + horsesRanks.get(i).attr("abs:href").trim().toString());
-			logger.debug("result : " + horsesRanks.get(i).text().trim());
+			String horseRes = horsesRanks.get(i).text().trim();
+			logger.debug("result : " + horseRes);
+			rs.add(horseRes);
 		}
+
+		
+		WebPage wp = new WpHorseTurfo(url, null, horseName, age, sex, rs);
 		//Elements horsesUrl = doc.select("table.tableauLine:eq(0) tbody tr td:eq(3) a[href]");
-		return null;
+		return wp;
 	}
 
 }

@@ -16,7 +16,7 @@ public class FinishList implements Serializer {
 	public JsonElement serialize() {
 		// TODO Auto-generated method stub
 		JsonObject result = new JsonObject();
-		for (Finish finish : finishes) {
+		for (Finish finish : getFinishes()) {
 			result.add("place", new JsonPrimitive(finish.place));
 			result.add("cote", new JsonPrimitive(finish.cote));
 			result.add("horse", new JsonPrimitive(finish.horse.extractInformation()));
@@ -35,6 +35,14 @@ public class FinishList implements Serializer {
 	public String getFileName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<Finish> getFinishes() {
+		return finishes;
+	}
+
+	public void setFinishes(List<Finish> finishes) {
+		this.finishes = finishes;
 	}
 
 }
