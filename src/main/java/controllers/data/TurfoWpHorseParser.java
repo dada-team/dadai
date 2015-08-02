@@ -19,15 +19,19 @@ import main.java.model.impl.WpHorseTurfo;
 import main.java.model.interfaces.WebPage;
 
 
-public class TurfoWpHorseParser implements WpParser {
+public class TurfoWpHorseParser extends WpParser {
 
 	Logger  logger = Logger.getLogger("main.java.controllers.sniffers.TurfoWpHorseParser");
+	
+	public TurfoWpHorseParser(boolean useProxy){
+		super(useProxy);
+	}
 	
 	@Override
 	public WebPage parse(URL url) throws IOException {
 		// TODO Auto-generated method stub
 		logger.info("... parse " + url);
-		Document doc = Jsoup.connect(url.toString()).timeout(WpHorseParameters.TIMED_OUT_MILLI).get(); 
+		Document doc = Jsoup.parse(this.download(url)); 
 		String path = url.getPath();
 		String horseName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
 		

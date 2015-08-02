@@ -17,7 +17,7 @@ public class TurfoWpHorseParserTest {
 
 	@Test
 	public void testBasicExecution() throws MalformedURLException {
-		WpParser myUnit = new TurfoWpHorseParser();
+		WpParser myUnit = new TurfoWpHorseParser(true);
 
 		URL testUrl = new URL("http://www.turfomania.fr/fiches/chevaux/circumference.html?idcheval=773136");
 

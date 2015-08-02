@@ -20,20 +20,21 @@ import main.java.model.impl.WpHorseTurfo;
 import main.java.model.impl.WpRaceTurfo;
 import main.java.model.interfaces.WebPage;
 
-public class TurfoWpRaceParser implements WpParser {
+public class TurfoWpRaceParser extends WpParser {
 
 	Logger logger = Logger.getLogger("main.java.controllers.sniffers.TurfoWpRaceParser");
 	TurfoWpHorseParser horseParser;
 
 	public TurfoWpRaceParser() {
-		this.horseParser = new TurfoWpHorseParser();
+		super(true);
+		this.horseParser = new TurfoWpHorseParser(true);
 	}
 
 	@Override
 	public WebPage parse(URL url) throws IOException {
 		// TODO Auto-generated method stub
 		logger.info("... parse : " + url);
-		Document doc = Jsoup.connect(url.toString()).timeout(WpRaceParameters.TIMED_OUT_MILLI).get();
+		Document doc = Jsoup.parse(this.download(url));
 		Elements horsesUrl = doc.select(WpRaceParameters.HORSE_URL_SELECT);
 		Elements horsesCotes = doc.select(WpRaceParameters.HORSE_COTES_SELECT);
 		Elements horsesJockey = doc.select(WpRaceParameters.HORSE_JOCKEY_SELECT);
@@ -47,7 +48,7 @@ public class TurfoWpRaceParser implements WpParser {
 				int rang = (i + 1);
 				Float cote = Float.parseFloat(horsesCotes.get(i).text());
 				String horseURL = horsesUrl.get(i).attr("abs:href").trim().toString();
-				String horseJockey = horsesJockey.get(i).attr("abs:href").trim().toString();
+				String horseJockey = horsesJockey.get(i).text();
 				
 				logger.debug("___________________________");
 				logger.debug("... new finish");
