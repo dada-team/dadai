@@ -179,4 +179,23 @@ public class TurfoRaceSnifferTest {
         }
     }
 	
+	@Test
+    public void testURLAreFoundWeek() {
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+
+        DateTime dtStart = formatter.parseDateTime("01/07/2015");
+        DateTime dtEnd = formatter.parseDateTime("07/07/2015");
+        
+        List<URL> urls = null;
+        
+		try {
+			urls = myUnit.sniff(dtStart, dtEnd);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+        assertFalse(urls.isEmpty());
+    }
+	
 }

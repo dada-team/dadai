@@ -18,6 +18,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import main.java.model.interfaces.WebPage;
 
@@ -29,7 +31,8 @@ public class CommandParser {
 	 *            command line arguments
 	 */
 	static Logger logger = Logger.getLogger("main.java.controllers.launchers.CommandParser");
-
+	static DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+	
 	public static Options getOptions() {
 		Options options = new Options();
 		options.addOption("help", "h", false, "help");
@@ -52,17 +55,33 @@ public class CommandParser {
 					CommandParser.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
 			formatter.printHelp(programName, getOptions());
 		} else {
-			DateTime dtStart = new DateTime(cmd.getOptionValue("dtstart"));
-			DateTime dtEnd = new DateTime(cmd.getOptionValue("dtend"));
-			File output = new File(cmd.getOptionValue("o"));
 			try {
+				DateTime dtStart = parseDateTime(cmd.getOptionValue("dtstart"));
+				DateTime dtEnd = parseDateTime(cmd.getOptionValue("dtend"));
+			
+				File output = new File(cmd.getOptionValue("o"));
 				processLaunch(output, dtStart, dtEnd);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				logger.debug("ERROR during the main program");
-				e.printStackTrace();
+				logger.error("ERROR writing/reading during the main program");
+			} catch (Exception e) {
+				logger.error("ERROR");
 			}
 		}
+	}
+
+	private static DateTime parseDateTime(String optionValue) throws Exception {
+		// TODO Auto-generated method stub
+		DateTime dt = null;
+		
+		try {
+			dt = formatter.parseDateTime(optionValue);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception("erreur format date : dd/mm/yyyy demande");
+		}
+		
+		return dt;
 	}
 
 	/**
@@ -163,10 +182,10 @@ public class CommandParser {
 			process(cmd);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
