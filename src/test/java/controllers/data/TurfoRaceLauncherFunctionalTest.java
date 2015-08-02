@@ -18,9 +18,9 @@ public class TurfoRaceLauncherFunctionalTest {
 
 	@Test
 	public void basicExecution(){
-		File f = new File(".", "/test/resources");
+		File f = new File("src/test/resources");
         DateTime dtStart = formatter.parseDateTime("01/07/2015");
-        DateTime dtEnd = formatter.parseDateTime("07/07/2015");
+        DateTime dtEnd = formatter.parseDateTime("01/07/2015");
 		TurfoRaceLauncher tfl = new TurfoRaceLauncher(f, dtStart, dtEnd);
 		tfl.loadAllData();
 		try {
