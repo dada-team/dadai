@@ -11,12 +11,14 @@ public class Finish implements Serializer {
 
 	protected Integer place;
 	protected Float cote;
+	protected String jockey;
 	protected WebPage horse;
 
-	public Finish(Integer place, Float cote, WebPage horse) {
+	public Finish(Integer place, Float cote, String jockey, WebPage horse) {
 		this.place = place;
 		this.cote = cote;
 		this.horse = horse;
+		this.jockey = jockey;
 	}
 
 	@Override
@@ -26,7 +28,8 @@ public class Finish implements Serializer {
 		result.add("place", new JsonPrimitive(place));
 		result.add("cote", new JsonPrimitive(cote));
 		result.add("horse", horse.serialize());
-	
+		result.add("jockey", new JsonPrimitive(jockey));
+		
 		return result;
 	}
 

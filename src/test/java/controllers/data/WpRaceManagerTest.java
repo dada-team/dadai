@@ -44,8 +44,8 @@ public class WpRaceManagerTest {
 				new URL("http://www.turfomania.fr/fiches/chevaux/oathkeeper.html?idcheval=773135"), 773136,
 				"circumference", "3", "Mâle", lastPerf);
 
-		Finish f1 = new Finish(1, (float) 2.55, wph);
-		Finish f2 = new Finish(2, (float) 3.15, wph2);
+		Finish f1 = new Finish(1, (float) 2.55, "mr uck", wph);
+		Finish f2 = new Finish(2, (float) 3.15, "mr orange", wph2);
 		finish.add(f1);
 		finish.add(f2);
 		fl.setFinishes(finish);

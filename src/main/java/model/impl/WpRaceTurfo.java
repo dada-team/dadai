@@ -4,6 +4,8 @@ import java.net.URL;
 import java.security.Timestamp;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -32,7 +34,12 @@ public class WpRaceTurfo extends WebPage {
 		result.add("id", new JsonPrimitive(this.id));
 		result.add("name", new JsonPrimitive(this.name));
 		result.add("url", new JsonPrimitive(this.url.toString()));
-		result.add("date", new JsonPrimitive(this.dtEvent.toString()));
+		
+		String pattern = "yyyy-MM-dd";
+		DateTimeFormatter formatter = DateTimeFormat.forPattern(pattern);
+		String formattedDate = formatter.print(this.dtEvent);
+		
+		result.add("date", new JsonPrimitive(formattedDate));
 		result.add("results", this.finishList.serialize());
 
 		return result;
@@ -47,8 +54,8 @@ public class WpRaceTurfo extends WebPage {
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return new StringBuilder().append(dtEvent.getMillis()).append("_").append(name).append("_")
-				.append(creationTime.getMillis()).append(".json").toString();
+		return new StringBuilder().append(getDtEventFormatted()).append("_").append(name).append("_")
+				.append(getCreationTimeFormatted()).append(".json").toString();
 	}
 
 	public DateTime getDtEvent() {
@@ -57,5 +64,13 @@ public class WpRaceTurfo extends WebPage {
 
 	public void setFinishList(FinishList finishList) {
 		this.finishList = finishList;
+	}
+	
+	
+	public String getDtEventFormatted() {
+		String pattern = "yyyy-MM-dd";
+		DateTimeFormatter formatter = DateTimeFormat.forPattern(pattern);
+		String formatted = formatter.print(this.dtEvent);
+		return formatted;
 	}
 }

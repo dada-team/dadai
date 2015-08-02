@@ -26,9 +26,8 @@ public class TurfoWpHorseParser implements WpParser {
 	@Override
 	public WebPage parse(URL url) throws IOException {
 		// TODO Auto-generated method stub
-		logger.info("***************************");
-		logger.info("PARSE : " + url);
-		Document doc = Jsoup.connect(url.toString()).get();
+		logger.info("... parse " + url);
+		Document doc = Jsoup.connect(url.toString()).timeout(WpHorseParameters.TIMED_OUT_MILLI).get(); 
 		String path = url.getPath();
 		String horseName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
 		
@@ -46,21 +45,22 @@ public class TurfoWpHorseParser implements WpParser {
 		if (matcher.find()) {
 			horseId = Integer.parseInt(matcher.group(1));
 		} 
-
-		logger.debug("sex : " + sex);
-		logger.debug("age : " + age);
-		logger.debug("name : " + horseName);
-		logger.debug("id : " + horseId);
-		
+		logger.debug("_______________________");
+		logger.debug("... info horse found : ");
+		logger.debug(" ... sex : " + sex);
+		logger.debug(" ... age : " + age);
+		logger.debug(" ... name : " + horseName);
+		logger.debug(" ... id : " + horseId);
 		List<String> rs = new ArrayList<String> ();
 		
+		logger.debug("....... past perf.");
 		for (int i = 0; i < horsesRanks.size() ; i++ ) {
-			logger.debug("URL races found : " + horsesRanks.get(i).attr("abs:href").trim().toString());
+			logger.debug("...... race : " + horsesRanks.get(i).attr("abs:href").trim().toString());
 			String horseRes = horsesRanks.get(i).text().trim();
-			logger.debug("result : " + horseRes);
+			logger.debug("...... result : " + horseRes);
 			rs.add(horseRes);
 		}
-
+		logger.debug("_______________________");
 		WebPage wp = new WpHorseTurfo(url, null, horseName, age, sex, rs);
 		//Elements horsesUrl = doc.select("table.tableauLine:eq(0) tbody tr td:eq(3) a[href]");
 		return wp;

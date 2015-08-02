@@ -40,22 +40,22 @@ public class TurfoRaceSniffer implements Sniffer<URL> {
 		
 		List<URL> urlDateFound = new ArrayList<URL> ();
 		URIBuilder ub = new URIBuilder(getMainUrl().toString());
-		logger.info("********************************");
-		logger.info("SNIFF");
-		logger.debug("Main site URL : " + ub.toString());
+		logger.info("_____________________________");
+		logger.info("... sniff ");
+		logger.info("... main site URL : " + ub.toString());
 		DateTime currentDate = dDebut;	
 		
 		while(currentDate.isBefore(dFin) || currentDate.equals(dFin)) {
 			ub.addParameter(parameters.getUrlGetDateArg(), currentDate.toString(dtf));
 			
-			logger.debug("Main race URL sniffed : " + ub.build().toURL());
+			logger.debug("... race sniffed : " + ub.build().toURL());
 			Document doc = Jsoup.connect(ub.build().toString()).get();
 			urlDateFound.addAll(extractAllRaceURL(doc));
 			
 			currentDate = currentDate.plusDays(1);
 			ub.clearParameters();
 		}
-		logger.info("********************************");
+		logger.info("_____________________________");
 		return urlDateFound;
 	}
 	
@@ -81,7 +81,6 @@ public class TurfoRaceSniffer implements Sniffer<URL> {
 		Elements links = doc.select(parameters.getRaceUrlRegexp());
 		
 		for (Element link : links) {
-			logger.debug("URL races found : " + link.attr("abs:href").trim() );
 			urlExtracted.add(new URL(link.attr("abs:href").trim())); 
 		}
 		

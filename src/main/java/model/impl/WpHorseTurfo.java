@@ -72,7 +72,7 @@ public class WpHorseTurfo extends WebPage {
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return new StringBuilder().append(name).append("_").append(creationTime.getMillis()).append(".json").toString();
+		return new StringBuilder().append(name).append("_").append(getCreationTimeFormatted()).append(".json").toString();
 	}
 
 }

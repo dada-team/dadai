@@ -32,32 +32,44 @@ public class TurfoWpRaceParser implements WpParser {
 	@Override
 	public WebPage parse(URL url) throws IOException {
 		// TODO Auto-generated method stub
-		logger.info("***************************");
-		logger.info("PARSE : " + url);
-		Document doc = Jsoup.connect(url.toString()).get();
-		Elements horsesUrl = doc.select(WpRaceParameters.HORSE_PATTERN_SELECT);
+		logger.info("... parse : " + url);
+		Document doc = Jsoup.connect(url.toString()).timeout(WpRaceParameters.TIMED_OUT_MILLI).get();
+		Elements horsesUrl = doc.select(WpRaceParameters.HORSE_URL_SELECT);
 		Elements horsesCotes = doc.select(WpRaceParameters.HORSE_COTES_SELECT);
+		Elements horsesJockey = doc.select(WpRaceParameters.HORSE_JOCKEY_SELECT);
 		// Elements horsesUrl = doc.select("table.tableauLine:eq(0) tbody tr
 		// td:eq(3) a[href]");
 
 		FinishList fl = new FinishList();
 
 		for (int i = 0; i < horsesUrl.size(); i++) {
-			int rang = (i + 1);
-			Float cote = Float.parseFloat(horsesCotes.get(i).text());
-			URL horseURL = new URL(horsesUrl.get(i).attr("abs:href").trim().toString());
-			WebPage horseWebPage = this.horseParser.parse(horseURL);
-
-			Finish finish = new Finish(i, cote, horseWebPage);
-			logger.debug("Rank : " + rang);
-			logger.debug("URL horses found : " + horsesUrl.get(i).attr("abs:href").trim().toString());
-			fl.getFinishes().add(finish);
-			logger.debug("Cote : " + horsesCotes.get(i).text());
+			try {
+				int rang = (i + 1);
+				Float cote = Float.parseFloat(horsesCotes.get(i).text());
+				String horseURL = horsesUrl.get(i).attr("abs:href").trim().toString();
+				String horseJockey = horsesJockey.get(i).attr("abs:href").trim().toString();
+				
+				logger.debug("___________________________");
+				logger.debug("... new finish");
+				logger.debug("... rank : " + rang);
+				logger.debug("... cote : " + cote);
+				logger.debug("... horse found : " + horseURL);
+				logger.debug("... jockey found : " + horseJockey);
+				logger.debug("___________________________");
+				
+				WebPage horseWebPage = this.horseParser.parse(new URL(horseURL));
+	
+				Finish finish = new Finish(i, cote, horseJockey, horseWebPage);
+				
+				fl.getFinishes().add(finish);
+			} catch(Exception e){
+				logger.error(e);
+			}
 		}
 
 		// http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143
 		WebPage wp = initWebPage(url, fl);
-		logger.info("***************************");
+		logger.info("_________________________");
 		return wp;
 	}
 
@@ -79,20 +91,20 @@ public class TurfoWpRaceParser implements WpParser {
 			logger.debug("error parsing url race");
 			logger.debug(e);
 		}
-
-		logger.debug("url : " + url);
-		logger.debug("id : " + id);
-		logger.debug("nameCourse : " + nameCourse);
-		logger.debug("date : " + dt);
-
+		logger.debug("___________________________");
+		logger.debug("... new webpage");
+		logger.debug("... url : " + url);
+		logger.debug("... id : " + id);
+		logger.debug("... nameCourse : " + nameCourse);
+		logger.debug("... date : " + dt);
+		logger.debug("___________________________");
+		
 		WpRaceTurfo wp = new WpRaceTurfo(url, id, nameCourse, dt, null);
 
 		return wp;
 	}
 
 	public WpRaceTurfo initWebPage(URL url, FinishList fl) {
-		logger.debug("init web page");
-
 		WpRaceTurfo wp = initWebPage(url);
 		wp.setFinishList(fl);
 		return wp;
@@ -122,7 +134,6 @@ public class TurfoWpRaceParser implements WpParser {
 
 	private String getMonth(String month) {
 		// TODO Auto-generated method stub
-		logger.debug("month : " + month);
 		String[] monthNames = { "janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre",
 				"octobre", "novembre", "decembre" };
 		Integer indexFound = null;

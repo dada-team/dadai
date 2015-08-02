@@ -26,9 +26,15 @@ public class WpRaceManager extends WpManager {
 	@Override
 	public void importWebPagesData(List<URL> urls) throws IOException {
 		// TODO Auto-generated method stub
+		logger.info("... importing " + urls.size() + " url");
 		for (URL url : urls) {
-			importWebPageData(url);
+			try {
+				importWebPageData(url);
+			} catch (Exception e) {
+				logger.error(e);
+			}
 		}
+		logger.info("... import OVER");
 	}
 
 	@Override
@@ -52,15 +58,16 @@ public class WpRaceManager extends WpManager {
 
 	}
 
+	@Override
 	public void writeToJSON() throws FileNotFoundException {
-		logger.info("write to json");
+		logger.info("... write to JSON");
 		
 		for (WebPage webpage : webPages) {
-			logger.debug("webpage");
 			PrintWriter out = new PrintWriter(new File(outputDirectory, webpage.getFileName()));
 			out.println(webpage.extractInformation());
 			out.close();
 		}
+		logger.info("... writing OVER");
 		// TODO Auto-generated method stub
 
 	}

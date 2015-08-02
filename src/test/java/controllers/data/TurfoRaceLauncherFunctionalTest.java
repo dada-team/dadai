@@ -18,6 +18,7 @@ public class TurfoRaceLauncherFunctionalTest {
 
 	@Test
 	public void basicExecution(){
+		long nanoTimeStart = System.currentTimeMillis();
 		File f = new File("src/test/resources");
         DateTime dtStart = formatter.parseDateTime("01/07/2015");
         DateTime dtEnd = formatter.parseDateTime("01/07/2015");
@@ -30,5 +31,22 @@ public class TurfoRaceLauncherFunctionalTest {
 			logger.error(e);
 			assertTrue(false);
 		}
+		
+		long nanoTimeEnd = System.currentTimeMillis();
+		long milliseconds = nanoTimeStart - nanoTimeEnd;
+		
+		int seconds = (int) (milliseconds / 1000) % 60 ;
+		int minutes = (int) ((milliseconds / (1000*60)) % 60);
+		int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(hours);
+		sb.append(" Hours ");
+        sb.append(minutes);
+        sb.append(" Minutes ");
+        sb.append(seconds);
+        sb.append(" Seconds");
+        
+        logger.info("... execution time (1 day test) : " + sb.toString());
 	}
 }

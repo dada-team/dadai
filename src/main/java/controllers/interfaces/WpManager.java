@@ -32,9 +32,6 @@ public abstract class WpManager {
 		this.webPages = webPages;
 	}
 
-	public void writeToJSON() throws FileNotFoundException {
-		// TODO Auto-generated method stub
-
-	}
+	public abstract void writeToJSON() throws FileNotFoundException;
 
 }

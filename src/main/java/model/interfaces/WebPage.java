@@ -3,6 +3,8 @@ package main.java.model.interfaces;
 import java.net.URL;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public abstract class WebPage implements Serializer {
 	
@@ -22,4 +24,12 @@ public abstract class WebPage implements Serializer {
 		// TODO Auto-generated method stub
 		return this.serialize().toString();
 	}
+
+	public String getCreationTimeFormatted() {
+		String pattern = "yyyy-MM-dd_hh.mm.ss";
+		DateTimeFormatter formatter = DateTimeFormat.forPattern(pattern);
+		String formatted = formatter.print(this.creationTime);
+		return formatted;
+	}
+	
 }
