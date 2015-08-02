@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -31,14 +32,25 @@ public class TurfoWpHorseParser implements WpParser {
 		String path = url.getPath();
 		String horseName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
 		
-		String sex = doc.select("div#ficheStatsLong table.tableauLine tbody tr").get(0).select("td:eq(4)").get(0).text();
-		String age = doc.select("div#ficheStatsLong table.tableauLine tbody tr").get(1).select("td:eq(4)").get(0).text();		
+		String sex = doc.select(WpHorseParameters.HORSE_SEX_SELECT).get(0).select("td:eq(4)").get(0).text();
+		String age = doc.select(WpHorseParameters.HORSE_AGE_SELECT).get(1).select("td:eq(4)").get(0).text();		
 		
-		logger.debug("sex " + sex);
-		logger.debug("age " + age);
-		logger.debug("name" + horseName);
 		
-		Elements horsesRanks = doc.select("div.ficheStatsMusiqueNew a");
+		Elements horsesRanks = doc.select(WpHorseParameters.HORSE_MUSIC_SELECT);
+		
+		Integer horseId = null;
+		
+		Pattern pattern = Pattern.compile(WpHorseParameters.URL_HORSE_ID_EXTRACT);//.html?idcourse=([0-9]+)
+		java.util.regex.Matcher matcher = pattern.matcher(url.toString());
+
+		if (matcher.find()) {
+			horseId = Integer.parseInt(matcher.group(1));
+		} 
+
+		logger.debug("sex : " + sex);
+		logger.debug("age : " + age);
+		logger.debug("name : " + horseName);
+		logger.debug("id : " + horseId);
 		
 		List<String> rs = new ArrayList<String> ();
 		
@@ -49,7 +61,6 @@ public class TurfoWpHorseParser implements WpParser {
 			rs.add(horseRes);
 		}
 
-		
 		WebPage wp = new WpHorseTurfo(url, null, horseName, age, sex, rs);
 		//Elements horsesUrl = doc.select("table.tableauLine:eq(0) tbody tr td:eq(3) a[href]");
 		return wp;

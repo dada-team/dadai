@@ -7,13 +7,17 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import main.java.controllers.interfaces.WpManager;
 import main.java.controllers.interfaces.WpParser;
 import main.java.model.interfaces.WebPage;
 
 public class WpRaceManager extends WpManager {
 
+	Logger logger = Logger.getLogger("main.java.controllers.data.WpRaceManager");
 	private WpParser parser = new TurfoWpRaceParser();
+	
 
 	public WpRaceManager(File outputDirectory) {
 		this.outputDirectory = outputDirectory;
@@ -49,8 +53,11 @@ public class WpRaceManager extends WpManager {
 	}
 
 	public void writeToJSON() throws FileNotFoundException {
+		logger.info("write to json");
+		
 		for (WebPage webpage : webPages) {
-			PrintWriter out = new PrintWriter(outputDirectory + webpage.getFileName());
+			logger.debug("webpage");
+			PrintWriter out = new PrintWriter(new File(outputDirectory, webpage.getFileName()));
 			out.println(webpage.extractInformation());
 			out.close();
 		}

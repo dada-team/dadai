@@ -15,21 +15,19 @@ import main.java.controllers.sniffers.TurfoRaceSniffer;
 
 public class TurfoWpHorseParserTest {
 
-	
 	@Test
-    public void testBasicExecution() throws MalformedURLException {
-        WpParser myUnit = new TurfoWpHorseParser();
+	public void testBasicExecution() throws MalformedURLException {
+		WpParser myUnit = new TurfoWpHorseParser();
 
-        
-        URL testUrl = new URL("http://www.turfomania.fr/fiches/chevaux/circumference.html?idcheval=773136");
-        
+		URL testUrl = new URL("http://www.turfomania.fr/fiches/chevaux/circumference.html?idcheval=773136");
+
 		try {
-			 myUnit.parse(testUrl);
+			myUnit.parse(testUrl);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-        assertEquals(0, 0);
-    }
+
+		assertEquals(0, 0);
+	}
 }

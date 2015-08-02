@@ -3,6 +3,7 @@ package main.java.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -13,13 +14,11 @@ public class FinishList implements Serializer {
 	private List<Finish> finishes = new ArrayList<Finish>();
 
 	@Override
-	public JsonElement serialize() {
+	public JsonArray serialize() {
 		// TODO Auto-generated method stub
-		JsonObject result = new JsonObject();
+		JsonArray result = new JsonArray();
 		for (Finish finish : getFinishes()) {
-			result.add("place", new JsonPrimitive(finish.place));
-			result.add("cote", new JsonPrimitive(finish.cote));
-			result.add("horse", new JsonPrimitive(finish.horse.extractInformation()));
+			result.add(finish.serialize());
 		}
 
 		return result;

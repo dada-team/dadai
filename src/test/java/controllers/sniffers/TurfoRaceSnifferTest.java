@@ -17,7 +17,7 @@ import org.junit.Test;
 import main.java.controllers.sniffers.TurfoRaceSniffer;
 
 public class TurfoRaceSnifferTest {
-	Logger  logger = Logger.getLogger("main.java.controllers.sniffers.TurfoRaceSnifferTest");
+	Logger  logger = Logger.getLogger("test.java.controllers.sniffers.TurfoRaceSnifferTest");
 	DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 	
 	public TurfoRaceSnifferTest() {
