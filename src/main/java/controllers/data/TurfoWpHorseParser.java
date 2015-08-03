@@ -28,7 +28,7 @@ public class TurfoWpHorseParser extends WpParser {
 	}
 	
 	@Override
-	public WebPage parse(URL url) throws IOException {
+	public WebPage parse(URL url) throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		logger.info("... parse " + url);
 		Document doc = Jsoup.parse(this.download(url)); 

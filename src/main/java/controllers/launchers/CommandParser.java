@@ -31,7 +31,7 @@ public class CommandParser {
 	 *            command line arguments
 	 */
 	static Logger logger = Logger.getLogger("main.java.controllers.launchers.CommandParser");
-	static DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+	static DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 	
 	public static Options getOptions() {
 		Options options = new Options();
@@ -78,7 +78,7 @@ public class CommandParser {
 			dt = formatter.parseDateTime(optionValue);
 		} catch (Exception e) {
 			logger.error(e);
-			throw new Exception("erreur format date : dd/mm/yyyy demande");
+			throw new Exception("erreur format date : yyyy-MM-dd demande");
 		}
 		
 		return dt;

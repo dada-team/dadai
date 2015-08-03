@@ -22,7 +22,7 @@ public abstract class WpParser {
 
 	private List<Proxy> proxies = new ArrayList<Proxy>();
 
-	public abstract WebPage parse(URL url) throws IOException;
+	public abstract WebPage parse(URL url) throws IOException, InterruptedException;
 
 	public WpParser(boolean initProxies) {
 		if (initProxies)
@@ -35,8 +35,10 @@ public abstract class WpParser {
 		URL url = new URL("http://www.google.com");
 		String str = null;
 		StringBuilder buffer = new StringBuilder();
+		//System.setProperty("http.proxyHost", "195.116.53.251");
+		//System.setProperty("http.proxyPort", "3128"); 
 		HttpURLConnection urlConnect = (HttpURLConnection) url.openConnection(proxy);
-		urlConnect.setConnectTimeout(30000);
+		urlConnect.setConnectTimeout(10000);
 		// trying to retrieve data from the source. If offline, this line will
 		// fail:
 		urlConnect.connect();
@@ -54,15 +56,11 @@ public abstract class WpParser {
 
 	private void initProxies() {
 		// TODO Auto-generated method stub
-		logger.debug("default Java proxy " + System.getProperty("http.proxyPort") + ":" + System.getProperty("http.proxyHost"));
+		logger.debug("... default Java proxy " + System.getProperty("http.proxyPort") + ":" + System.getProperty("http.proxyHost"));
 		logger.info("... loading proxies");
 		List<Proxy> proxiesCandidates = new ArrayList<Proxy>();
 		
-		proxiesCandidates.add(new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("184.69.82.226", 1080)));
-		proxiesCandidates.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("213.136.79.124", 80)));
-		proxiesCandidates.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("24.132.85.114", 80)));
-		proxiesCandidates.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("86.62.76.51", 3128)));
-		proxiesCandidates.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("82.101.250.44", 80)));
+		proxiesCandidates.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.116.53.251", 3128)));
 		proxiesCandidates.add(Proxy.NO_PROXY);
 		
 		for (Proxy proxy : proxiesCandidates) {
@@ -81,10 +79,11 @@ public abstract class WpParser {
 		logger.info("... number of valid proxies : " + proxies.size());
 	}
 
-	public String download(URL url) throws IOException {
+	public String download(URL url) throws IOException, InterruptedException {
 		// -- Setup connection through proxy
 		String dl = null;
 
+		//1er essai
 		for (Proxy proxy : proxies) {
 			dl = download(proxy, url);
 
@@ -92,8 +91,19 @@ public abstract class WpParser {
 				break;
 		}
 
+		//2nd essai
 		if (dl == null) {
-			throw new IOException("... ERROR : URL " + url.toString() + " impossible to download");
+			Thread.sleep(5000);
+			
+			for (Proxy proxy : proxies) {
+				dl = download(proxy, url);
+
+				if (dl != null)
+					break;
+			}
+			
+			if (dl == null)
+				throw new IOException("... ERROR : URL " + url.toString() + " impossible to download");
 		}
 
 		return dl;

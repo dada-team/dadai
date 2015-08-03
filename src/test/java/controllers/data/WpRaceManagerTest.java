@@ -49,10 +49,11 @@ public class WpRaceManagerTest {
 		finish.add(f1);
 		finish.add(f2);
 		fl.setFinishes(finish);
+		String raceDescription = "GOOD COURSE COOL STORY";
 
 		WpRaceTurfo tfWr = new WpRaceTurfo(
 				new URL("http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143"),
-				191143, "chantilly-prix-de-l-hermitage", new DateTime(), fl);
+				191143, "chantilly-prix-de-l-hermitage", new DateTime(), raceDescription, fl);
 
 		webPages.add(tfWr);
 		myUnit.setWebPages(webPages);

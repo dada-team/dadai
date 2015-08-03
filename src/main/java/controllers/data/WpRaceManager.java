@@ -44,7 +44,7 @@ public class WpRaceManager extends WpManager {
 	}
 
 	@Override
-	public void importWebPageData(URL url) throws IOException {
+	public void importWebPageData(URL url) throws IOException, InterruptedException {
 		addWebPage(parser.parse(url));
 	}
 

@@ -19,7 +19,7 @@ import main.java.model.impl.WpRaceTurfo;
 public class TurfoWpRaceParserTest {
 
 	@Test
-	public void testBasicExecution() throws IOException {
+	public void testBasicExecution() throws IOException, InterruptedException {
 		WpParser myUnit = new TurfoWpRaceParser();
 
 		URL testUrl = new URL(

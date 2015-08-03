@@ -11,6 +11,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import main.java.controllers.interfaces.WpParser;
@@ -31,7 +32,7 @@ public class TurfoWpRaceParser extends WpParser {
 	}
 
 	@Override
-	public WebPage parse(URL url) throws IOException {
+	public WebPage parse(URL url) throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		logger.info("... parse : " + url);
 		Document doc = Jsoup.parse(this.download(url));
@@ -46,8 +47,14 @@ public class TurfoWpRaceParser extends WpParser {
 		for (int i = 0; i < horsesUrl.size(); i++) {
 			try {
 				int rang = (i + 1);
-				Float cote = Float.parseFloat(horsesCotes.get(i).text());
-				String horseURL = horsesUrl.get(i).attr("abs:href").trim().toString();
+				Float cote = null;
+				try {
+					cote = Float.parseFloat(horsesCotes.get(i).text());
+				} catch (Exception e){
+					cote = null;
+				}
+				//logger.debug("horse text name : " + horsesUrl.get(i).text());
+				String horseURL = new URL(url, horsesUrl.get(i).attr("href").trim().toString()).toString();
 				String horseJockey = horsesJockey.get(i).text();
 				
 				logger.debug("___________________________");
@@ -67,9 +74,12 @@ public class TurfoWpRaceParser extends WpParser {
 				logger.error(e);
 			}
 		}
-
+		
+		String raceDescription = doc.select(WpRaceParameters.RACE_DESCRIPTION_SELECT).get(0).text();
+		logger.debug("... race description : " + raceDescription);
+		
 		// http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143
-		WebPage wp = initWebPage(url, fl);
+		WebPage wp = initWebPage(url, raceDescription, fl);
 		logger.info("_________________________");
 		return wp;
 	}
@@ -100,14 +110,15 @@ public class TurfoWpRaceParser extends WpParser {
 		logger.debug("... date : " + dt);
 		logger.debug("___________________________");
 		
-		WpRaceTurfo wp = new WpRaceTurfo(url, id, nameCourse, dt, null);
+		WpRaceTurfo wp = new WpRaceTurfo(url, id, nameCourse, dt, null, null);
 
 		return wp;
 	}
 
-	public WpRaceTurfo initWebPage(URL url, FinishList fl) {
+	public WpRaceTurfo initWebPage(URL url, String raceDescription, FinishList fl) {
 		WpRaceTurfo wp = initWebPage(url);
 		wp.setFinishList(fl);
+		wp.setRaceDescription(raceDescription);
 		return wp;
 		// http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143
 	}

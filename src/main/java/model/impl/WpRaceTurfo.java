@@ -18,12 +18,14 @@ public class WpRaceTurfo extends WebPage {
 
 	private DateTime dtEvent;
 	private FinishList finishList;
+	private String raceDescription;
 
 
-	public WpRaceTurfo(URL url, Integer id, String name, DateTime dtEvent, FinishList finishList) {
+	public WpRaceTurfo(URL url, Integer id, String name, DateTime dtEvent, String raceDescription, FinishList finishList) {
 		super(url, id, name);
 		this.dtEvent = dtEvent;
 		this.finishList = finishList;
+		this.raceDescription = raceDescription;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -33,7 +35,8 @@ public class WpRaceTurfo extends WebPage {
 		JsonObject result = new JsonObject();
 		result.add("id", new JsonPrimitive(this.id));
 		result.add("name", new JsonPrimitive(this.name));
-		result.add("url", new JsonPrimitive(this.url.toString()));
+		//result.add("url", new JsonPrimitive(this.url.toString()));
+		result.add("description", new JsonPrimitive(this.raceDescription));
 		
 		String pattern = "yyyy-MM-dd";
 		DateTimeFormatter formatter = DateTimeFormat.forPattern(pattern);
@@ -72,5 +75,11 @@ public class WpRaceTurfo extends WebPage {
 		DateTimeFormatter formatter = DateTimeFormat.forPattern(pattern);
 		String formatted = formatter.print(this.dtEvent);
 		return formatted;
+	}
+
+	public void setRaceDescription(String raceDescription) {
+		// TODO Auto-generated method stub
+		this.raceDescription = raceDescription;
+		
 	}
 }
