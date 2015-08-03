@@ -19,8 +19,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import main.java.controllers.interfaces.Sniffer;
+import main.java.controllers.interfaces.WpParser;
+import main.java.model.interfaces.WebPage;
 
-public class TurfoRaceSniffer implements Sniffer<URL> {
+public class TurfoRaceSniffer extends WpParser implements Sniffer<URL> {
 	
 	Logger  logger = Logger.getLogger("main.java.controllers.sniffers.TurfoRaceSniffer");
 	
@@ -29,6 +31,7 @@ public class TurfoRaceSniffer implements Sniffer<URL> {
 
 	
 	public TurfoRaceSniffer() {
+		  super(true);
 		  this.parameters = new TurfoRaceParameters();
 	}
 	
@@ -49,7 +52,8 @@ public class TurfoRaceSniffer implements Sniffer<URL> {
 			ub.addParameter(parameters.getUrlGetDateArg(), currentDate.toString(dtf));
 			
 			logger.debug("... race sniffed : " + ub.build().toURL());
-			Document doc = Jsoup.connect(ub.build().toString()).get();
+			//Document doc = Jsoup.connect(ub.build().toString()).get();
+			Document doc = Jsoup.parse(this.download(ub.build().toURL()));
 			urlDateFound.addAll(extractAllRaceURL(doc));
 			
 			currentDate = currentDate.plusDays(1);
@@ -81,7 +85,7 @@ public class TurfoRaceSniffer implements Sniffer<URL> {
 		Elements links = doc.select(parameters.getRaceUrlRegexp());
 		
 		for (Element link : links) {
-			urlExtracted.add(new URL(link.attr("abs:href").trim())); 
+			urlExtracted.add(new URL(getMainUrl(), link.attr("href").trim())); 
 		}
 		
 		return urlExtracted;
@@ -94,5 +98,11 @@ public class TurfoRaceSniffer implements Sniffer<URL> {
 	private URL getMainUrl() throws MalformedURLException {
 		// TODO Auto-generated method stub
 		return new URL(parameters.getMainRaceUrl());
+	}
+
+	@Override
+	public WebPage parse(URL url) throws IOException, InterruptedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
