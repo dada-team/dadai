@@ -30,8 +30,8 @@ public class TurfoRaceSniffer extends WpParser implements Sniffer<URL> {
 	private TurfoRaceParameters parameters;
 
 	
-	public TurfoRaceSniffer() {
-		  super(true);
+	public TurfoRaceSniffer(boolean initProxies) {
+		  super(initProxies);
 		  this.parameters = new TurfoRaceParameters();
 	}
 	

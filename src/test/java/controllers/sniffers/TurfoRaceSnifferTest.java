@@ -26,7 +26,7 @@ public class TurfoRaceSnifferTest {
 	
 	@Test
     public void testNoResultsUnexistingDates() {
-        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer(false);
 
         DateTime dtStart = formatter.parseDateTime("12/11/2066");
         DateTime dtEnd = formatter.parseDateTime("12/11/2066");
@@ -45,7 +45,7 @@ public class TurfoRaceSnifferTest {
 	
 	@Test
     public void testNoResultsIncoherentDates() {
-        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer(false);
 
         DateTime dtStart = formatter.parseDateTime("12/11/2016");
         DateTime dtEnd = formatter.parseDateTime("11/11/2016");
@@ -64,7 +64,7 @@ public class TurfoRaceSnifferTest {
 	
 	@Test
     public void testURLAreFound() {
-        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer(false);
 
         DateTime dtStart = formatter.parseDateTime("01/07/2015");
         DateTime dtEnd = formatter.parseDateTime("01/07/2015");
@@ -83,7 +83,7 @@ public class TurfoRaceSnifferTest {
 	
 	@Test
     public void testCorrectNbOfURLAreFound() {
-        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer(false);
 
         DateTime dtStart = formatter.parseDateTime("01/07/2015");
         DateTime dtEnd = formatter.parseDateTime("01/07/2015");
@@ -102,7 +102,7 @@ public class TurfoRaceSnifferTest {
 	
 	@Test
     public void testCorrectURLAreFound() throws Exception {
-        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer(false);
 
         DateTime dtStart = formatter.parseDateTime("01/07/2015");
         DateTime dtEnd = formatter.parseDateTime("01/07/2015");
@@ -157,7 +157,7 @@ public class TurfoRaceSnifferTest {
 	
 	@Test
     public void testNoBadURLAreFound() throws Exception {
-        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer(false);
 
         DateTime dtStart = formatter.parseDateTime("01/05/2015");
         DateTime dtEnd = formatter.parseDateTime("01/06/2015");
@@ -181,7 +181,7 @@ public class TurfoRaceSnifferTest {
 	
 	@Test
     public void testURLAreFoundWeek() {
-        TurfoRaceSniffer myUnit = new TurfoRaceSniffer();
+        TurfoRaceSniffer myUnit = new TurfoRaceSniffer(false);
 
         DateTime dtStart = formatter.parseDateTime("01/07/2015");
         DateTime dtEnd = formatter.parseDateTime("07/07/2015");

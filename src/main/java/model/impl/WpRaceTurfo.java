@@ -80,6 +80,6 @@ public class WpRaceTurfo extends WebPage {
 	public void setRaceDescription(String raceDescription) {
 		// TODO Auto-generated method stub
 		this.raceDescription = raceDescription;
-		
 	}
+	
 }

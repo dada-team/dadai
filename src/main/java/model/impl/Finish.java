@@ -26,7 +26,12 @@ public class Finish implements Serializer {
 		// TODO Auto-generated method stub
 		JsonObject result = new JsonObject();
 		result.add("place", new JsonPrimitive(place));
-		result.add("cote", new JsonPrimitive(cote));
+		
+		if (cote != null)
+			result.add("cote", new JsonPrimitive(cote));
+		else
+			result.add("cote", new JsonPrimitive(""));
+		
 		result.add("horse", horse.serialize());
 		result.add("jockey", new JsonPrimitive(jockey));
 		

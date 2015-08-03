@@ -41,7 +41,8 @@ public class TurfoWpRaceParser extends WpParser {
 		Elements horsesJockey = doc.select(WpRaceParameters.HORSE_JOCKEY_SELECT);
 		// Elements horsesUrl = doc.select("table.tableauLine:eq(0) tbody tr
 		// td:eq(3) a[href]");
-
+		WpRaceTurfo wp = initWebPage(url);
+		
 		FinishList fl = new FinishList();
 
 		for (int i = 0; i < horsesUrl.size(); i++) {
@@ -64,7 +65,7 @@ public class TurfoWpRaceParser extends WpParser {
 				logger.debug("... horse found : " + horseURL);
 				logger.debug("... jockey found : " + horseJockey);
 				
-				WebPage horseWebPage = this.horseParser.parse(new URL(horseURL));
+				WebPage horseWebPage = this.horseParser.parse(new URL(horseURL), wp.getDtEvent());
 	
 				Finish finish = new Finish(i, cote, horseJockey, horseWebPage);
 				
@@ -79,7 +80,8 @@ public class TurfoWpRaceParser extends WpParser {
 		logger.debug("___________________________");
 		
 		// http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143
-		WebPage wp = initWebPage(url, raceDescription, fl);
+		wp.setRaceDescription(raceDescription);
+		wp.setFinishList(fl);
 		logger.info("_________________________");
 		return wp;
 	}

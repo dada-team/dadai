@@ -16,7 +16,7 @@ import main.java.model.interfaces.WebPage;
 public class WpRaceManager extends WpManager {
 
 	Logger logger = Logger.getLogger("main.java.controllers.data.WpRaceManager");
-	private WpParser parser = new TurfoWpRaceParser(true);
+	private WpParser parser = new TurfoWpRaceParser(false);
 	
 
 	public WpRaceManager(File outputDirectory) {

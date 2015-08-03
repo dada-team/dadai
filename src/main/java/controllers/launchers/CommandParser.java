@@ -46,8 +46,9 @@ public class CommandParser {
 	/**
 	 * 
 	 * @param cmd
+	 * @throws Exception 
 	 */
-	private static void process(CommandLine cmd) {
+	private static void process(CommandLine cmd) throws Exception {
 		if (cmd.hasOption("help") || (!cmd.hasOption("dtstart") || (!cmd.hasOption("dtend")))
 				|| (!cmd.hasOption("o"))) {
 			HelpFormatter formatter = new HelpFormatter();
@@ -64,8 +65,10 @@ public class CommandParser {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				logger.error("ERROR writing/reading during the main program");
+				throw new IOException("ERROR writing/reading during the main program");
 			} catch (Exception e) {
 				logger.error("ERROR");
+				throw new Exception("ERROR");
 			}
 		}
 	}
@@ -172,21 +175,14 @@ public class CommandParser {
 	/**
 	 * 
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Options options = getOptions();
 		CommandLineParser parser = new DefaultParser();
 
-		try {
-			CommandLine cmd = parser.parse(options, args);
-			process(cmd);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			logger.error(e);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error(e);
-		}
+		CommandLine cmd = parser.parse(options, args);
+		process(cmd);
 	}
 
 }

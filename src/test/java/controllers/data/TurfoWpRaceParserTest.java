@@ -20,7 +20,7 @@ public class TurfoWpRaceParserTest {
 
 	@Test
 	public void testBasicExecution() throws Exception {
-		WpParser myUnit = new TurfoWpRaceParser(true);
+		WpParser myUnit = new TurfoWpRaceParser(false);
 
 		URL testUrl = new URL(
 				"http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143");
@@ -31,7 +31,7 @@ public class TurfoWpRaceParserTest {
 
 	@Test
 	public void testUrlParsing() throws IOException {
-		TurfoWpRaceParser myUnit = new TurfoWpRaceParser(true);
+		TurfoWpRaceParser myUnit = new TurfoWpRaceParser(false);
 
 		URL testUrl = new URL(
 				"http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143");

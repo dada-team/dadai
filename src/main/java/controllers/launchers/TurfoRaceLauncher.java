@@ -23,7 +23,7 @@ public class TurfoRaceLauncher implements Callable<List<WebPage>> {
 	private DateTime dtStart;
 	private DateTime dtEnd;
 	private WpManager webCol;
-	private Sniffer<URL> sniffer = new TurfoRaceSniffer();
+	private Sniffer<URL> sniffer = new TurfoRaceSniffer(false);
 	
 	public TurfoRaceLauncher(File outputDirectory, DateTime dtStart, DateTime dtEnd) {
 		this.webCol = new WpRaceManager(outputDirectory);
