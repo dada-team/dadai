@@ -42,52 +42,55 @@ public class TurfoWpRaceParser extends WpParser {
 		// Elements horsesUrl = doc.select("table.tableauLine:eq(0) tbody tr
 		// td:eq(3) a[href]");
 		WpRaceTurfo wp = initWebPage(url);
-		
-		//call and search WebPage detailed statistics
-		
+
+		// call and search WebPage detailed statistics
+
 		FinishList fl = new FinishList();
 
 		for (int i = 0; i < horsesUrl.size(); i++) {
 			try {
 				int rang = (i + 1);
 				Float cote = null;
+
 				try {
 					cote = Float.parseFloat(horsesCotes.get(i).text());
-				} catch (Exception e){
+				} catch (Exception e) {
 					cote = null;
 				}
-				//logger.debug("horse text name : " + horsesUrl.get(i).text());
+
+				// logger.debug("horse text name : " + horsesUrl.get(i).text());
 				String horseURL = new URL(url, horsesUrl.get(i).attr("href").trim().toString()).toString();
 				String horseJockey = horsesJockey.get(i).text();
-				
+
 				logger.debug("___________________________");
 				logger.debug("... new finish");
 				logger.debug("... rank : " + rang);
 				logger.debug("... cote : " + cote);
 				logger.debug("... horse found : " + horseURL);
 				logger.debug("... jockey found : " + horseJockey);
-				
+
 				WebPage horseWebPage = this.horseParser.parse(new URL(horseURL), wp.getDtEvent());
-				//look in detailed statistics to get values corresponding to the horseName
-				
+				// look in detailed statistics to get values corresponding to
+				// the horseName
+
 				Finish finish = new Finish(i, cote, horseJockey, horseWebPage);
-				
+
 				fl.getFinishes().add(finish);
-			} catch(Exception e){
+			} catch (Exception e) {
 				logger.error(e);
 			}
 		}
-		
+
 		String raceDescription = doc.select(WpRaceParameters.RACE_DESCRIPTION_SELECT).get(0).text();
 		logger.debug("... race description : " + raceDescription);
-		
+
 		logger.debug("___________________________");
-		
+
 		// http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143
 		wp.setRaceDescription(raceDescription);
 		wp.setFinishList(fl);
 		// set description
-		
+
 		logger.info("_________________________");
 		return wp;
 	}
@@ -118,7 +121,7 @@ public class TurfoWpRaceParser extends WpParser {
 		logger.debug("... nameCourse : " + nameCourse);
 		logger.debug("... date : " + dt);
 		logger.debug("___________________________");
-		
+
 		WpRaceTurfo wp = new WpRaceTurfo(url, id, nameCourse, dt, null, null);
 
 		return wp;
