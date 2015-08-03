@@ -35,7 +35,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 		return parse(url, headers, doc);
 	}
 	
-	private WebPage parse(URL url, Elements headers, Document doc) {
+	private WebPage parse(URL url, Elements headers, Document doc) throws Exception {
 		// 1 : caracteristiques chevaux
 		WebPage wp = null;
 		if (isFirstModel(headers))
@@ -68,7 +68,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 			return false;
 	}
 
-	private WebPage parseDocFirstModel (URL url, Document doc) {
+	private WebPage parseDocFirstModel (URL url, Document doc) throws Exception {
 		Elements horsesPredictions = doc.select("table.tablesorter.tableauLine tbody tr");
 		Elements jockeyWeights = doc.select("table.tablesorter.tableauLine tbody tr");
 		Elements horsesCordes = doc.select("table.tablesorter.tableauLine tbody tr");
@@ -108,7 +108,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 	}
 	
 
-	private WebPage parseDocSecondModel(URL url, Document doc) {
+	private WebPage parseDocSecondModel(URL url, Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		Elements horsesDistance = doc.select("table.tablesorter.tableauLine tbody tr");
 		Elements horsesRecord = doc.select("table.tablesorter.tableauLine tbody tr");
@@ -139,7 +139,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 		return wp;
 	}
 	
-	private Prediction getPrediction(Document doc) {
+	private Prediction getPrediction(Document doc) throws Exception {
 		String patternStringRankHorse = "([0-9]+)(.+)";
 		Pattern patternH = Pattern.compile(patternStringRankHorse);
 		
@@ -173,7 +173,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 			expertPredicter = matcherP.group(2);
 		} else {
 			logger.warn("... impossible to catch predicter name or no predictor");
-			//throw new Exception("... impossible to catch predicter name");
+			throw new Exception("... impossible to catch predicter name");
 		}
 		
 		logger.debug("... predicteur : " + expertPredicter);
