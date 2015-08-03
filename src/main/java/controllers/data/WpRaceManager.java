@@ -16,7 +16,7 @@ import main.java.model.interfaces.WebPage;
 public class WpRaceManager extends WpManager {
 
 	Logger logger = Logger.getLogger("main.java.controllers.data.WpRaceManager");
-	private WpParser parser = new TurfoWpRaceParser();
+	private WpParser parser = new TurfoWpRaceParser(true);
 	
 
 	public WpRaceManager(File outputDirectory) {
@@ -44,7 +44,7 @@ public class WpRaceManager extends WpManager {
 	}
 
 	@Override
-	public void importWebPageData(URL url) throws IOException, InterruptedException {
+	public void importWebPageData(URL url) throws Exception {
 		addWebPage(parser.parse(url));
 	}
 

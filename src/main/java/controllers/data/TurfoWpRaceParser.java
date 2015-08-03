@@ -26,13 +26,13 @@ public class TurfoWpRaceParser extends WpParser {
 	Logger logger = Logger.getLogger("main.java.controllers.sniffers.TurfoWpRaceParser");
 	TurfoWpHorseParser horseParser;
 
-	public TurfoWpRaceParser() {
-		super(true);
-		this.horseParser = new TurfoWpHorseParser(true);
+	public TurfoWpRaceParser(boolean useProxy) {
+		super(useProxy);
+		this.horseParser = new TurfoWpHorseParser(useProxy);
 	}
 
 	@Override
-	public WebPage parse(URL url) throws IOException, InterruptedException {
+	public WebPage parse(URL url) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("... parse : " + url);
 		Document doc = Jsoup.parse(this.download(url));
@@ -63,7 +63,6 @@ public class TurfoWpRaceParser extends WpParser {
 				logger.debug("... cote : " + cote);
 				logger.debug("... horse found : " + horseURL);
 				logger.debug("... jockey found : " + horseJockey);
-				logger.debug("___________________________");
 				
 				WebPage horseWebPage = this.horseParser.parse(new URL(horseURL));
 	
@@ -77,6 +76,7 @@ public class TurfoWpRaceParser extends WpParser {
 		
 		String raceDescription = doc.select(WpRaceParameters.RACE_DESCRIPTION_SELECT).get(0).text();
 		logger.debug("... race description : " + raceDescription);
+		logger.debug("___________________________");
 		
 		// http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143
 		WebPage wp = initWebPage(url, raceDescription, fl);
@@ -84,7 +84,7 @@ public class TurfoWpRaceParser extends WpParser {
 		return wp;
 	}
 
-	public WpRaceTurfo initWebPage(URL url) {
+	public WpRaceTurfo initWebPage(URL url) throws IOException {
 		Pattern pattern = Pattern.compile(WpRaceParameters.URL_RACE_PATTERN_REGEXP);// .html?idcourse=([0-9]+)
 		java.util.regex.Matcher matcher = pattern.matcher(url.toString());
 
@@ -99,8 +99,9 @@ public class TurfoWpRaceParser extends WpParser {
 				id = Integer.parseInt(matcher.group(3));
 			}
 		} catch (Exception e) {
-			logger.debug("error parsing url race");
-			logger.debug(e);
+			logger.error("error parsing url race");
+			logger.error(e);
+			throw new IOException("error parsing url race");
 		}
 		logger.debug("___________________________");
 		logger.debug("... new webpage");
@@ -115,7 +116,7 @@ public class TurfoWpRaceParser extends WpParser {
 		return wp;
 	}
 
-	public WpRaceTurfo initWebPage(URL url, String raceDescription, FinishList fl) {
+	public WpRaceTurfo initWebPage(URL url, String raceDescription, FinishList fl) throws Exception {
 		WpRaceTurfo wp = initWebPage(url);
 		wp.setFinishList(fl);
 		wp.setRaceDescription(raceDescription);

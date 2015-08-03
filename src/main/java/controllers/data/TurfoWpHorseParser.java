@@ -28,7 +28,7 @@ public class TurfoWpHorseParser extends WpParser {
 	}
 	
 	@Override
-	public WebPage parse(URL url) throws IOException, InterruptedException {
+	public WebPage parse(URL url) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("... parse " + url);
 		Document doc = Jsoup.parse(this.download(url)); 
@@ -59,7 +59,8 @@ public class TurfoWpHorseParser extends WpParser {
 		
 		logger.debug("....... past perf.");
 		for (int i = 0; i < horsesRanks.size() ; i++ ) {
-			logger.debug("...... race : " + horsesRanks.get(i).attr("abs:href").trim().toString());
+			URL horseRace = new URL(url, horsesRanks.get(i).attr("href").trim().toString());
+			logger.debug("...... race : " + horseRace.toString());
 			String horseRes = horsesRanks.get(i).text().trim();
 			logger.debug("...... result : " + horseRes);
 			rs.add(horseRes);

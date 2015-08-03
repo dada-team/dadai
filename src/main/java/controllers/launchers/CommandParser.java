@@ -88,9 +88,9 @@ public class CommandParser {
 	 * 
 	 * @param dtStart
 	 * @param dtEnd
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
-	private static void processLaunch(File output, DateTime dtStart, DateTime dtEnd) throws IOException {
+	private static void processLaunch(File output, DateTime dtStart, DateTime dtEnd) throws Exception {
 		TurfoRaceLauncher trl = new TurfoRaceLauncher(output, dtStart, dtEnd);
 		trl.loadAllData();
 		trl.writeAllData();

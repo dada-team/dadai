@@ -19,8 +19,8 @@ import main.java.model.impl.WpRaceTurfo;
 public class TurfoWpRaceParserTest {
 
 	@Test
-	public void testBasicExecution() throws IOException, InterruptedException {
-		WpParser myUnit = new TurfoWpRaceParser();
+	public void testBasicExecution() throws Exception {
+		WpParser myUnit = new TurfoWpRaceParser(true);
 
 		URL testUrl = new URL(
 				"http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143");
@@ -30,8 +30,8 @@ public class TurfoWpRaceParserTest {
 	}
 
 	@Test
-	public void testUrlParsing() throws MalformedURLException {
-		TurfoWpRaceParser myUnit = new TurfoWpRaceParser();
+	public void testUrlParsing() throws IOException {
+		TurfoWpRaceParser myUnit = new TurfoWpRaceParser(true);
 
 		URL testUrl = new URL(
 				"http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143");

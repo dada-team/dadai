@@ -22,7 +22,7 @@ public abstract class WpParser {
 
 	private List<Proxy> proxies = new ArrayList<Proxy>();
 
-	public abstract WebPage parse(URL url) throws IOException, InterruptedException;
+	public abstract WebPage parse(URL url) throws IOException, InterruptedException, Exception;
 
 	public WpParser(boolean initProxies) {
 		if (initProxies)

@@ -14,17 +14,18 @@ import main.java.controllers.launchers.TurfoRaceLauncher;
 
 public class TurfoRaceLauncherFunctionalTest {
 	Logger  logger = Logger.getLogger("test.java.controllers.launchers.TurfoRaceLauncherFunctionalTest");
-	DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+	DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-mm-dd");
 
 	@Test
 	public void basicExecution(){
 		long nanoTimeStart = System.currentTimeMillis();
 		File f = new File("src/test/resources");
-        DateTime dtStart = formatter.parseDateTime("01/07/2015");
-        DateTime dtEnd = formatter.parseDateTime("01/07/2015");
+        DateTime dtStart = formatter.parseDateTime("2015-06-30");
+        DateTime dtEnd = formatter.parseDateTime("2015-06-30");
 		TurfoRaceLauncher tfl = new TurfoRaceLauncher(f, dtStart, dtEnd);
-		tfl.loadAllData();
+
 		try {
+			tfl.loadAllData();
 			tfl.writeAllData();
 			assertTrue(true);
 		} catch (Exception e) {

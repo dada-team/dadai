@@ -31,15 +31,12 @@ public class TurfoRaceLauncher implements Callable<List<WebPage>> {
 		this.dtEnd = dtEnd;
 	}
 	
-	public void loadAllData(){
+	public void loadAllData() throws Exception{
 		List<URL> url;
-		try {
-			url = sniffer.sniff(dtStart, dtEnd);
-			this.webCol.importWebPagesData(url);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		url = sniffer.sniff(dtStart, dtEnd);
+		this.webCol.importWebPagesData(url);
+
 	}
 	
 	public void writeAllData() throws IOException{

@@ -18,7 +18,7 @@ public abstract class WpManager {
 
 	public abstract void importWebPagesData(List<URL> url) throws IOException;
 
-	public abstract void importWebPageData(URL url) throws IOException, InterruptedException;
+	public abstract void importWebPageData(URL url) throws IOException, InterruptedException, Exception;
 
 	public abstract void clear();
 
