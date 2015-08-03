@@ -35,7 +35,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 		return parse(url, headers, doc);
 	}
 	
-	public WebPage parse(URL url, Elements headers, Document doc) {
+	private WebPage parse(URL url, Elements headers, Document doc) {
 		// 1 : caracteristiques chevaux
 		WebPage wp = null;
 		if (isFirstModel(headers))
@@ -68,7 +68,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 			return false;
 	}
 
-	public WebPage parseDocFirstModel (URL url, Document doc) {
+	private WebPage parseDocFirstModel (URL url, Document doc) {
 		Elements horsesPredictions = doc.select("table.tablesorter.tableauLine tbody tr");
 		Elements jockeyWeights = doc.select("table.tablesorter.tableauLine tbody tr");
 		Elements horsesCordes = doc.select("table.tablesorter.tableauLine tbody tr");
