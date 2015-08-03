@@ -58,7 +58,7 @@
               <archive>
                   <manifest>
                       <addClasspath>true</addClasspath>
-          	          <mainClass>softmap.Main</mainClass>
+          	          <mainClass>main.java.controllers.launchers.CommandParser</mainClass>
       		      </manifest>
       	       </archive>
   		      <encoding>UTF-8</encoding>
