@@ -15,6 +15,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.UnrecognizedOptionException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -43,6 +44,13 @@ public class CommandParser {
 		return options;
 	}
 
+	
+	private static void printHelp() {
+		HelpFormatter formatter = new HelpFormatter();
+		String programName = new java.io.File(
+				CommandParser.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
+		formatter.printHelp(programName, getOptions());
+	}
 	/**
 	 * 
 	 * @param cmd
@@ -51,24 +59,26 @@ public class CommandParser {
 	private static void process(CommandLine cmd) throws Exception {
 		if (cmd.hasOption("help") || (!cmd.hasOption("dtstart") || (!cmd.hasOption("dtend")))
 				|| (!cmd.hasOption("o"))) {
-			HelpFormatter formatter = new HelpFormatter();
-			String programName = new java.io.File(
-					CommandParser.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
-			formatter.printHelp(programName, getOptions());
+			 printHelp();
 		} else {
+			
 			try {
 				DateTime dtStart = parseDateTime(cmd.getOptionValue("dtstart"));
 				DateTime dtEnd = parseDateTime(cmd.getOptionValue("dtend"));
-			
 				File output = new File(cmd.getOptionValue("o"));
+				
+				if(!output.isDirectory())
+				{
+					throw new ParseException("output directory does not exist (or is a file)");
+				}
+				
 				processLaunch(output, dtStart, dtEnd);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				logger.error("ERROR writing/reading during the main program");
-				throw new IOException("ERROR writing/reading during the main program");
+			} catch (ParseException e) {
+				logger.error(e);
+				printHelp();
 			} catch (Exception e) {
-				logger.error("ERROR");
-				throw new Exception("ERROR");
+				logger.error(e);
+				throw e;
 			}
 		}
 	}
@@ -81,7 +91,7 @@ public class CommandParser {
 			dt = formatter.parseDateTime(optionValue);
 		} catch (Exception e) {
 			logger.error(e);
-			throw new Exception("erreur format date : yyyy-MM-dd demande");
+			throw new ParseException("erreur format date : yyyy-MM-dd demande");
 		}
 		
 		return dt;
@@ -180,9 +190,17 @@ public class CommandParser {
 	public static void main(String[] args) throws Exception {
 		Options options = getOptions();
 		CommandLineParser parser = new DefaultParser();
+		try {
+			CommandLine cmd = parser.parse(options, args);
+			process(cmd);
+		} catch (UnrecognizedOptionException e) {
+			logger.error(e);
+			HelpFormatter formatter = new HelpFormatter();
+			String programName = new java.io.File(
+							CommandParser.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
 
-		CommandLine cmd = parser.parse(options, args);
-		process(cmd);
+			formatter.printHelp(programName, getOptions());
+		}
 	}
 
 }
