@@ -2,7 +2,9 @@ package main.java.model.impl;
 
 import java.net.URL;
 import java.security.Timestamp;
+import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -19,6 +21,9 @@ public class WpRaceTurfo extends WebPage {
 	private DateTime dtEvent;
 	private FinishList finishList;
 	private String raceDescription;
+	private WpDetailsTurfo wpDetail;
+	
+	Logger  logger = Logger.getLogger("main.java.mode.impl.WpRaceTurfo");
 
 
 	public WpRaceTurfo(URL url, Integer id, String name, DateTime dtEvent, String raceDescription, FinishList finishList) {
@@ -31,10 +36,11 @@ public class WpRaceTurfo extends WebPage {
 
 	@Override
 	public JsonElement serialize() {
+		logger.debug("... serializing race");
 		// TODO Auto-generated method stub
 		JsonObject result = new JsonObject();
 		result.add("id", new JsonPrimitive(this.id));
-		result.add("name", new JsonPrimitive(this.name));
+		result.add("name", new JsonPrimitive(this.getName()));
 		//result.add("url", new JsonPrimitive(this.url.toString()));
 		result.add("description", new JsonPrimitive(this.raceDescription));
 		
@@ -44,7 +50,12 @@ public class WpRaceTurfo extends WebPage {
 		
 		result.add("date", new JsonPrimitive(formattedDate));
 		result.add("results", this.finishList.serialize());
-
+		
+		if (this.wpDetail != null) {
+			if(this.wpDetail.getPrediction() != null)
+				result.add("predictions", this.wpDetail.serialize());
+		}
+		
 		return result;
 	}
 
@@ -57,7 +68,7 @@ public class WpRaceTurfo extends WebPage {
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return new StringBuilder().append(getDtEventFormatted()).append("_").append(name).append("_")
+		return new StringBuilder().append(getDtEventFormatted()).append("_").append(getName()).append("_")
 				.append(getCreationTimeFormatted()).append(".json").toString();
 	}
 
@@ -80,6 +91,41 @@ public class WpRaceTurfo extends WebPage {
 	public void setRaceDescription(String raceDescription) {
 		// TODO Auto-generated method stub
 		this.raceDescription = raceDescription;
+	}
+	
+	
+	public void setWpDetail(WpDetailsTurfo wpDetail) {
+		logger.info("... set wp detail");
+		this.wpDetail = wpDetail;
+	}
+
+	public void enrichWithDetails() {
+		logger.info("... enrich with details");
+		// TODO Auto-generated method stub
+		if (this.wpDetail != null) {
+			logger.info("... enriching with details");
+			Iterator<Finish> it = this.finishList.getFinishes().iterator();
+			
+			while(it.hasNext()) {
+				Finish f = it.next();
+				String horseName = f.horse.getName();
+				logger.debug("... horse name searched : " + horseName);
+				Iterator<Pronostic> itp = this.wpDetail.getPronostics().iterator();
+				
+				while(itp.hasNext()) {
+					Pronostic p = itp.next();
+					String horseNamePrediction = p.horseName;
+					logger.debug("... horse prediction : " + horseNamePrediction);
+					if (horseName.startsWith(horseNamePrediction)) {
+						p.horseName = horseName;
+						f.setPronostic(p);
+						logger.debug("... pronostic RETROUVE");	
+					}
+				}
+			}
+		} else {
+			logger.warn("... no details");
+		}
 	}
 	
 }

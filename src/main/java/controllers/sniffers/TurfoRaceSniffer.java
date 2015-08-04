@@ -91,7 +91,6 @@ public class TurfoRaceSniffer extends WpParser implements Sniffer<URL> {
 		return urlExtracted;
 	}
 
-
 	/**
 	 * 
 	 */

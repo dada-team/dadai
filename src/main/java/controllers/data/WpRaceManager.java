@@ -63,6 +63,7 @@ public class WpRaceManager extends WpManager {
 		logger.info("... write to JSON");
 		
 		for (WebPage webpage : webPages) {
+			logger.error("... writing : " + webpage.getFileName());
 			PrintWriter out = new PrintWriter(new File(outputDirectory, webpage.getFileName()));
 			out.println(webpage.extractInformation());
 			out.close();

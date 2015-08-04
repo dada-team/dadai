@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.google.gson.JsonElement;
 
+import main.java.model.interfaces.Serializer;
+
 public class WpDetailsTurfoModelOne extends WpDetailsTurfo {
 	
 	public WpDetailsTurfoModelOne(URL url, Integer id, String name) {
@@ -20,7 +22,7 @@ public class WpDetailsTurfoModelOne extends WpDetailsTurfo {
 	@Override
 	public JsonElement serialize() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.serialize();
 	}
 
 	@Override
@@ -34,5 +36,4 @@ public class WpDetailsTurfoModelOne extends WpDetailsTurfo {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

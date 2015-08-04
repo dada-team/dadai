@@ -17,6 +17,7 @@ import org.jsoup.select.Elements;
 import main.java.controllers.interfaces.WpParser;
 import main.java.model.impl.Finish;
 import main.java.model.impl.FinishList;
+import main.java.model.impl.WpDetailsTurfo;
 import main.java.model.impl.WpHorseTurfo;
 import main.java.model.impl.WpRaceTurfo;
 import main.java.model.interfaces.WebPage;
@@ -25,10 +26,12 @@ public class TurfoWpRaceParser extends WpParser {
 
 	Logger logger = Logger.getLogger("main.java.controllers.sniffers.TurfoWpRaceParser");
 	TurfoWpHorseParser horseParser;
+	TurfoWpDetailsRaceParser detailsParser;
 
 	public TurfoWpRaceParser(boolean useProxy) {
 		super(useProxy);
 		this.horseParser = new TurfoWpHorseParser(useProxy);
+		this.detailsParser = new TurfoWpDetailsRaceParser(useProxy);
 	}
 
 	@Override
@@ -39,10 +42,15 @@ public class TurfoWpRaceParser extends WpParser {
 		Elements horsesUrl = doc.select(WpRaceParameters.HORSE_URL_SELECT);
 		Elements horsesCotes = doc.select(WpRaceParameters.HORSE_COTES_SELECT);
 		Elements horsesJockey = doc.select(WpRaceParameters.HORSE_JOCKEY_SELECT);
+		Elements horsesTrainers = doc.select(WpRaceParameters.HORSE_TRAINER_SELECT);
+
 		// Elements horsesUrl = doc.select("table.tableauLine:eq(0) tbody tr
 		// td:eq(3) a[href]");
 		WpRaceTurfo wp = initWebPage(url);
 
+		String urlDetailRelativeUrl = doc.select(WpRaceParameters.DETAIL_URL_SELECT).get(0).attr("href").trim().toString();
+		URL urlDetail = new URL(url, urlDetailRelativeUrl);
+		WpDetailsTurfo wpDetail = (WpDetailsTurfo) this.detailsParser.parse(urlDetail);
 		// call and search WebPage detailed statistics
 
 		FinishList fl = new FinishList();
@@ -61,6 +69,7 @@ public class TurfoWpRaceParser extends WpParser {
 				// logger.debug("horse text name : " + horsesUrl.get(i).text());
 				String horseURL = new URL(url, horsesUrl.get(i).attr("href").trim().toString()).toString();
 				String horseJockey = horsesJockey.get(i).text();
+				String horseTrainer = horsesTrainers.get(i).text();
 
 				logger.debug("___________________________");
 				logger.debug("... new finish");
@@ -73,7 +82,7 @@ public class TurfoWpRaceParser extends WpParser {
 				// look in detailed statistics to get values corresponding to
 				// the horseName
 
-				Finish finish = new Finish(i, cote, horseJockey, horseWebPage);
+				Finish finish = new Finish(i, cote, horseJockey, horseTrainer,horseWebPage);
 
 				fl.getFinishes().add(finish);
 			} catch (Exception e) {
@@ -89,6 +98,12 @@ public class TurfoWpRaceParser extends WpParser {
 		// http://www.turfomania.fr/pronostics/rapports-dimanche-12-juillet-2015-chantilly-prix-de-l-hermitage.html?idcourse=191143
 		wp.setRaceDescription(raceDescription);
 		wp.setFinishList(fl);
+		
+		logger.debug("... set details");
+		wp.setWpDetail(wpDetail);
+		
+		logger.debug("... enrich details");
+		wp.enrichWithDetails();
 		// set description
 
 		logger.info("_________________________");

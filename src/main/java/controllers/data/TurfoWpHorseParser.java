@@ -63,7 +63,7 @@ public class TurfoWpHorseParser extends WpParser {
 		logger.info("... parse " + url);
 		Document doc = Jsoup.parse(this.download(url));
 		String path = url.getPath();
-		String horseName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
+		String horseName = doc.select(WpHorseParameters.HORSE_NAME_SELECT).get(0).text().trim();
 
 		String sex = doc.select(WpHorseParameters.HORSE_SEX_SELECT).get(0).select("td:eq(4)").get(0).text();
 		String age = doc.select(WpHorseParameters.HORSE_AGE_SELECT).get(1).select("td:eq(4)").get(0).text();

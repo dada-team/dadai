@@ -1,14 +1,20 @@
 package main.java.model.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Prediction {
 
-	private String predicter;
-	private HashMap<String, Integer> horseRankPrediction = new HashMap();
+	protected String predicter;
+	protected List<String> orderedHorseRankPrediction = new ArrayList<String>();
 	
-	public Prediction(String predicter, HashMap<String, Integer> horseRankPrediction) {
+	public Prediction(String predicter, List<String> orderedHorseRankPrediction) {
 		this.predicter = predicter;
-		this.horseRankPrediction = horseRankPrediction;
+		this.orderedHorseRankPrediction = orderedHorseRankPrediction;
+	}
+	
+	public void setPredicter(String predicter){
+		this.predicter = predicter;
 	}
 }

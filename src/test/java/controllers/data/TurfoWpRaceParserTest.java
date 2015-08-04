@@ -9,9 +9,11 @@ import java.net.URL;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.jsoup.select.Elements;
 import org.junit.Test;
 
 import main.java.controllers.data.TurfoWpRaceParser;
+import main.java.controllers.data.WpRaceParameters;
 import main.java.controllers.interfaces.WpParser;
 import main.java.controllers.sniffers.TurfoRaceSniffer;
 import main.java.model.impl.WpRaceTurfo;
@@ -40,4 +42,5 @@ public class TurfoWpRaceParserTest {
 		assertTrue(wp.getFileName() != null);
 		assertTrue(wp.getDtEvent() != null);
 	}
+	
 }

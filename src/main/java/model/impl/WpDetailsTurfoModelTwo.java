@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 import com.google.gson.JsonElement;
 
@@ -15,14 +16,14 @@ public class WpDetailsTurfoModelTwo extends WpDetailsTurfo {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void addPronostic(String horseName, DateTime dt, Integer distance) {
-		this.getPronostics().add(new PronosticModelTwo(horseName, dt, distance));
+	public void addPronostic(String horseName, Period period, Integer distance) {
+		this.getPronostics().add(new PronosticModelTwo(horseName, period, distance));
 	}
 
 	@Override
 	public JsonElement serialize() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.serialize();
 	}
 
 	@Override

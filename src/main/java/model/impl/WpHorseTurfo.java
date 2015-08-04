@@ -55,7 +55,7 @@ public class WpHorseTurfo extends WebPage {
 	public JsonElement serialize() {
 		JsonObject result = new JsonObject();
 
-		result.add("name", new JsonPrimitive(this.name));
+		result.add("name", new JsonPrimitive(this.getName()));
 		result.add("age", new JsonPrimitive(this.age.toString()));
 		result.add("sex", new JsonPrimitive(this.sex));
 		result.add("lastResults", new JsonPrimitive(this.lastPerformances.toString()));
@@ -72,7 +72,7 @@ public class WpHorseTurfo extends WebPage {
 	@Override
 	public String getFileName() {
 		// TODO Auto-generated method stub
-		return new StringBuilder().append(name).append("_").append(getCreationTimeFormatted()).append(".json").toString();
+		return new StringBuilder().append(getName()).append("_").append(getCreationTimeFormatted()).append(".json").toString();
 	}
 
 }

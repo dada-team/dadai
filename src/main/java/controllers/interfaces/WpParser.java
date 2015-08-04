@@ -93,7 +93,7 @@ public abstract class WpParser {
 
 		//2nd essai
 		if (dl == null) {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			
 			for (Proxy proxy : proxies) {
 				dl = download(proxy, url);
@@ -116,6 +116,7 @@ public abstract class WpParser {
 		try {
 			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection(proxy);
 			httpUrlConnection.setConnectTimeout(10000);
+			httpUrlConnection.setReadTimeout(25000);
 			httpUrlConnection.connect();
 			// -- Download the website into a buffer
 			BufferedReader br = new BufferedReader(new InputStreamReader(httpUrlConnection.getInputStream()));
