@@ -16,7 +16,7 @@ public class TurfoRaceLauncherFunctionalTest {
 	Logger  logger = Logger.getLogger("test.java.controllers.launchers.TurfoRaceLauncherFunctionalTest");
 	DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-	//@Test
+	@Test
 	public void basicExecution(){
 		long nanoTimeStart = System.currentTimeMillis();
 		File f = new File("src/test/resources");

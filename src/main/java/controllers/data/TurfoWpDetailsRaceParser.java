@@ -169,7 +169,7 @@ public class TurfoWpDetailsRaceParser extends WpParser {
 		String patternStringRankHorse = "([0-9]+)(.+)";
 		Pattern patternH = Pattern.compile(patternStringRankHorse);
 
-		Elements expertPredictions = doc.select("div.colTreeDetailBloc2 div.choixJeux");
+		Elements expertPredictions = doc.select("div.colTreeDetailBloc2").get(0).select("div.choixJeux");
 		List<String> horseRankPrediction = new ArrayList<String> ();
 
 		for (int i = 0; i < expertPredictions.size(); i++) {
